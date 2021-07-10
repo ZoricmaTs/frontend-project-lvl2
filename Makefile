@@ -1,16 +1,11 @@
-install: install-deps
+#test:
+#	npm test
+#
+#test-coverage:
+#	npm test -- --coverage --coverageProvider=v8
 
-run:
-	bin/nodejs-package.js 10
-
-install-deps:
+install:
 	npm ci
-
-test:
-	npm test
-
-test-coverage:
-	npm test -- --coverage --coverageProvider=v8
 
 lint:
 	npx eslint .
@@ -19,5 +14,5 @@ publish:
 	npm publish
 
 gendiff:
-	node bin/gendiff.js
+	npm link
 .PHONY: test
