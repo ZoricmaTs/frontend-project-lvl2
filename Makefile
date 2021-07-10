@@ -13,6 +13,6 @@ lint:
 publish:
 	npm publish
 
-gendiff:
-	npm link
+#gendiff:
+#	npm link
 .PHONY: test
