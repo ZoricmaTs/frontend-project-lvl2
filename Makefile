@@ -14,5 +14,5 @@ publish:
 	npm publish
 
 #gendiff:
-#	npm link
+#	node bin/genDiff.js
 .PHONY: test
