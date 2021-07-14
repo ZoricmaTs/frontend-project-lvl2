@@ -1,8 +1,8 @@
-#test:
-#	npm test
-#
-#test-coverage:
-#	npm test -- --coverage --coverageProvider=v8
+test:
+	 npm run test:watch
+
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
 
 install:
 	npm ci

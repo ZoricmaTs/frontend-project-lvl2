@@ -5,17 +5,17 @@ const makeDiff = (filepath1, filepath2) => {
   const keys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
   const keysSorted = keys.sort();
   const diff = keysSorted.reduce((acc, key) => {
-    if (!fileObj2.hasOwnProperty(key)) {
-      return [ ...acc, `- ${key}: ${fileObj1[key]}`]
+    if (!Object.prototype.hasOwnProperty.call(fileObj2, key)) {
+      return [...acc, `- ${key}: ${fileObj1[key]}`];
     }
-    if (!fileObj1.hasOwnProperty(key)) {
-      return [ ...acc, `+ ${key}: ${fileObj2[key]}`]
+    if (!Object.prototype.hasOwnProperty.call(fileObj1, key)) {
+      return [...acc, `+ ${key}: ${fileObj2[key]}`];
     }
     if (fileObj1[key] !== fileObj2[key]) {
-      return [ ...acc, `- ${key}: ${fileObj1[key]}`, `+ ${key}: ${fileObj2[key]}`]
+      return [...acc, `- ${key}: ${fileObj1[key]}`, `+ ${key}: ${fileObj2[key]}`];
     }
 
-    return [ ...acc, `  ${key}: ${fileObj1[key]}`]
+    return [...acc, `  ${key}: ${fileObj1[key]}`];
   }, []);
 
   let str = '{\n';
@@ -23,7 +23,7 @@ const makeDiff = (filepath1, filepath2) => {
     str += `  ${item}\n`;
   });
 
-  return `${str}}`
+  return `${str}}`;
 };
 
 export default makeDiff;
