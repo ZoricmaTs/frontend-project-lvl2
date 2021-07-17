@@ -1,5 +1,5 @@
 test:
-	 npm run test:watch
+	npm run test
 
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
@@ -13,6 +13,6 @@ lint:
 publish:
 	npm publish
 
-#gendiff:
-#	node bin/genDiff.js
+gendiff:
+	node bin/genDiff.js
 .PHONY: test
