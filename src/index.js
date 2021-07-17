@@ -1,29 +1,28 @@
+import _ from 'lodash';
+
 const makeDiff = (filepath1, filepath2) => {
-  const fileObj1 = JSON.parse(filepath1);
-  const fileObj2 = JSON.parse(filepath2);
-  const allKeys = [...Object.keys(fileObj1), ...Object.keys(fileObj2)];
+  const dataFirst = JSON.parse(filepath1);
+  const dataSecond = JSON.parse(filepath2);
+  const allKeys = [...Object.keys(dataFirst), ...Object.keys(dataSecond)];
   const keys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
-  const keysSorted = keys.sort();
+  const keysSorted = _.sortBy(keys);
+
   const diff = keysSorted.reduce((acc, key) => {
-    if (!Object.prototype.hasOwnProperty.call(fileObj2, key)) {
-      return [...acc, `- ${key}: ${fileObj1[key]}`];
+    if (!_.has(dataSecond, key)) {
+      return [...acc, ` - ${key}: ${dataFirst[key]}`];
     }
-    if (!Object.prototype.hasOwnProperty.call(fileObj1, key)) {
-      return [...acc, `+ ${key}: ${fileObj2[key]}`];
+    if (!_.has(dataFirst, key)) {
+      return [...acc, ` + ${key}: ${dataSecond[key]}`];
     }
-    if (fileObj1[key] !== fileObj2[key]) {
-      return [...acc, `- ${key}: ${fileObj1[key]}`, `+ ${key}: ${fileObj2[key]}`];
+    if (dataFirst[key] !== dataSecond[key]) {
+      return [...acc, ` - ${key}: ${dataFirst[key]}`, ` + ${key}: ${dataSecond[key]}`];
     }
 
-    return [...acc, `  ${key}: ${fileObj1[key]}`];
+    return [...acc, `   ${key}: ${dataFirst[key]}`];
   }, []);
 
-  let str = '{\n';
-  diff.forEach((item) => {
-    str += `  ${item}\n`;
-  });
-
-  return `${str}}`;
+  const result = `{\n${[...diff].join('\n')}\n}`;
+  return result;
 };
 
 export default makeDiff;
