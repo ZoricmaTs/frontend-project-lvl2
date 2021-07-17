@@ -33,5 +33,8 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: make test-coverage
+          coverageCommand: make test-coverage && cp ${{github.workspace}}/coverage/lcov.info ${{github.workspace}}/coverage/lcov2.info
+          coverageLocations: |
+            ${{github.workspace}}/client/coverage/lcov.info:lcov
+            ${{github.workspace}}/server/coverage/lcov.info:lcov
           debug: true
