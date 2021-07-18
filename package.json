@@ -17,6 +17,10 @@
   "author": "zori",
   "license": "ISC",
   "type": "module",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
   "bugs": {
     "url": "https://github.com/ZoricmaTs/frontend-project-lvl2/issues"
   },
@@ -32,6 +36,7 @@
   },
   "dependencies": {
     "commander": "^8.0.0",
+    "debug": "^4.3.2",
     "lodash": "^4.17.21"
   }
 }
