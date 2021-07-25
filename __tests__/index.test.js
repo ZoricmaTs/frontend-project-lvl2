@@ -11,23 +11,16 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8').trim();
 
 const cases = [
-  { filePath1: 'file1.json', filePath2: 'file2.json' },
-  { filePath1: 'file1.yml', filePath2: 'file2.yml' },
+  ['json', 'stylish'],
+  ['yml', 'stylish'],
 ];
 
-const expectedData = { nested: '', plain: '' };
-
-beforeAll(() => {
-  const plainData = readFixtureFile('plain.txt');
-  expectedData.plain = plainData;
-});
-
-describe.each(cases)('makeDiff', ({ filePath1, filePath2 }) => {
-  test('plain object', () => {
-    const expected = expectedData.plain;
-    const data1 = readFixtureFile(filePath1);
-    const data2 = readFixtureFile(filePath2);
-    const actual = makeDiff(filePath1, filePath2, data1, data2);
+describe.each(cases)('makeDiff', (extention, format) => {
+  test(`${format} object`, () => {
+    const expected = readFixtureFile(`${format}.txt`);
+    const first = getFixturePath(`file1.${extention}`);
+    const second = getFixturePath(`file2.${extention}`);
+    const actual = makeDiff(first, second);
     expect(actual).toEqual(expected);
   });
 });

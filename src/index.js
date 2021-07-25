@@ -1,40 +1,73 @@
 import _ from 'lodash';
-import parser from './parsers.js';
+import fs from 'fs';
 import path from 'path';
+import parser from './parsers.js';
+import formatter from './formatter.js';
 
-const format = (filepath) => path.extname(filepath);
+const getFormatFile = (filepath) => path.extname(filepath);
+const getDataFile = (filepath) => {
+  const absFilePath = path.resolve(process.cwd(), filepath);
+  return fs.readFileSync(absFilePath, 'utf-8');
+};
 
-const calculateDiff = (data1, data2) => {
+const buildAST = (data1, data2) => {
   const allKeys = [...Object.keys(data1), ...Object.keys(data2)];
   const keys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
   const keysSorted = _.sortBy(keys);
-
-  const diff = keysSorted.reduce((acc, key) => {
+  const treeAST = keysSorted.map((key) => {
+    const value1 = data1[key];
+    const value2 = data2[key];
+    if (_.isObject(value1) && _.isObject(value2)) {
+      return {
+        type: 'nested',
+        name: key,
+        children: buildAST(value1, value2),
+      };
+    }
     if (!_.has(data2, key)) {
-      return [...acc, ` - ${key}: ${data1[key]}`];
+      return {
+        type: 'removed',
+        name: key,
+        value: value1,
+      };
     }
     if (!_.has(data1, key)) {
-      return [...acc, ` + ${key}: ${data2[key]}`];
+      return {
+        type: 'added',
+        name: key,
+        value: value2,
+      };
     }
-    if (data1[key] !== data2[key]) {
-      return [...acc, ` - ${key}: ${data1[key]}`, ` + ${key}: ${data2[key]}`];
+    if (value1 !== value2) {
+      return {
+        type: 'changed',
+        name: key,
+        oldValue: value1,
+        newValue: value2,
+      };
     }
+    return {
+      type: 'unchanged',
+      name: key,
+      value: value1,
+    };
+  });
 
-    return [...acc, `   ${key}: ${data1[key]}`];
-  }, []);
-
-  const result = `{\n${[...diff].join('\n')}\n}`;
-  return result;
+  return treeAST;
 };
 
-const makeDiff = (filepath1, filepath2, dataFirst, dataSecond) => {
-  const FirstFileFormat = format(filepath1);
-  const SecondFileFormat = format(filepath2);
+const makeDiff = (filepath1, filepath2, format = 'stylish') => {
+  const dataFirst = getDataFile(filepath1);
+  const dataSecond = getDataFile(filepath2);
+  const FirstFileFormat = getFormatFile(filepath1);
+  const SecondFileFormat = getFormatFile(filepath2);
   const dataFirstParse = parser(dataFirst, FirstFileFormat);
   const dataSecondParse = parser(dataSecond, SecondFileFormat);
 
-  const result = calculateDiff(dataFirstParse, dataSecondParse);
-  return result;
+  const result = buildAST(dataFirstParse, dataSecondParse);
+  const diff = formatter(result, format);
+
+  return diff;
 };
 
 export default makeDiff;
