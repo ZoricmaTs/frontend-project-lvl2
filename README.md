@@ -41,3 +41,6 @@
 ### Сравнение файлов в формате yaml
 [![asciicast](https://asciinema.org/a/J8ZspIigeUcmm3HwXl66rUxY4.png)](https://asciinema.org/a/J8ZspIigeUcmm3HwXl66rUxY4)
 
+### Сравнение файлов в формате yaml с выводом формата по умолчанию "stylish"
+[![asciicast](https://asciinema.org/a/vbjydwbeIvsVUQkJWdePhD77H.png)](https://asciinema.org/a/vbjydwbeIvsVUQkJWdePhD77H)
+
