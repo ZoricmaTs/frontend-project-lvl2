@@ -13,6 +13,8 @@ const readFixtureFile = (filename) => fs.readFileSync(getFixturePath(filename), 
 const cases = [
   ['json', 'stylish'],
   ['yml', 'stylish'],
+  ['json', 'plain'],
+  ['yml', 'plain'],
 ];
 
 describe.each(cases)('makeDiff', (extention, format) => {
@@ -20,7 +22,7 @@ describe.each(cases)('makeDiff', (extention, format) => {
     const expected = readFixtureFile(`${format}.txt`);
     const first = getFixturePath(`file1.${extention}`);
     const second = getFixturePath(`file2.${extention}`);
-    const actual = makeDiff(first, second);
+    const actual = makeDiff(first, second, format);
     expect(actual).toEqual(expected);
   });
 });

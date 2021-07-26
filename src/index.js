@@ -2,7 +2,7 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import parser from './parsers.js';
-import formatter from './formatter.js';
+import formatter from './formatters/index.js';
 
 const getFormatFile = (filepath) => path.extname(filepath);
 const getDataFile = (filepath) => {
@@ -56,7 +56,7 @@ const buildAST = (data1, data2) => {
   return treeAST;
 };
 
-const makeDiff = (filepath1, filepath2, format = 'stylish') => {
+const makeDiff = (filepath1, filepath2, format) => {
   const dataFirst = getDataFile(filepath1);
   const dataSecond = getDataFile(filepath2);
   const FirstFileFormat = getFormatFile(filepath1);
