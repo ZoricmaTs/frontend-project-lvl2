@@ -44,3 +44,6 @@
 ### Сравнение файлов в формате yaml с выводом формата по умолчанию "stylish"
 [![asciicast](https://asciinema.org/a/vbjydwbeIvsVUQkJWdePhD77H.png)](https://asciinema.org/a/vbjydwbeIvsVUQkJWdePhD77H)
 
+### Сравнение файлов в формате yaml с выводом формата "plain"
+```gendiff --format plain <filepath1> <filepath2>```
+[![asciicast](https://asciinema.org/a/gpXrEMtjOiHkKTTZZ7AIn81z6.png)](https://asciinema.org/a/gpXrEMtjOiHkKTTZZ7AIn81z6)
