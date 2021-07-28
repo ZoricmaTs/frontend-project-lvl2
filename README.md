@@ -47,3 +47,7 @@
 ### Сравнение файлов в формате yaml с выводом формата "plain"
 ```gendiff --format plain <filepath1> <filepath2>```
 [![asciicast](https://asciinema.org/a/gpXrEMtjOiHkKTTZZ7AIn81z6.png)](https://asciinema.org/a/gpXrEMtjOiHkKTTZZ7AIn81z6)
+
+### Сравнение файлов в формате yaml с выводом формата "json"
+```gendiff --format json <filepath1> <filepath2>```
+[![asciicast](https://asciinema.org/a/nJn3AqTf4qZ7s6hF2eau7i3jo.png)](https://asciinema.org/a/nJn3AqTf4qZ7s6hF2eau7i3jo)
