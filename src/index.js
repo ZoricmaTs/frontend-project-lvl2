@@ -59,10 +59,10 @@ const buildAST = (data1, data2) => {
 const makeDiff = (filepath1, filepath2, format) => {
   const dataFirst = getDataFile(filepath1);
   const dataSecond = getDataFile(filepath2);
-  const FirstFileFormat = getFormatFile(filepath1);
-  const SecondFileFormat = getFormatFile(filepath2);
-  const dataFirstParse = parser(dataFirst, FirstFileFormat);
-  const dataSecondParse = parser(dataSecond, SecondFileFormat);
+  const firstFileFormat = getFormatFile(filepath1);
+  const secondFileFormat = getFormatFile(filepath2);
+  const dataFirstParse = parser(dataFirst, firstFileFormat);
+  const dataSecondParse = parser(dataSecond, secondFileFormat);
 
   const result = buildAST(dataFirstParse, dataSecondParse);
   const diff = formatter(result, format);

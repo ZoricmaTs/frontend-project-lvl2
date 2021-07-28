@@ -51,9 +51,9 @@ const render = (nodes) => {
   return iter(nodes);
 };
 
-const stylish = (nodes) => {
+const getStylishFormat = (nodes) => {
   const lines = nodes.map((node) => render(node));
   return `{${lines.join('')}\n}`;
 };
 
-export default stylish;
+export default getStylishFormat;

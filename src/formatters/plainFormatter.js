@@ -34,9 +34,9 @@ const render = (nodes) => {
   return iter(nodes, '');
 };
 
-const plain = (nodes) => {
+const getPlainFormat = (nodes) => {
   const lines = nodes.map((node) => render(node));
   return lines.join('').trim();
 };
 
-export default plain;
+export default getPlainFormat;
