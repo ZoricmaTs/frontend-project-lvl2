@@ -1,15 +1,15 @@
-import getStylishFormat from './stylishFormatter.js';
-import getPlainFormat from './plainFormatter.js';
-import getJsonFormat from './jsonFormatter.js';
+import stylish from './stylish.js';
+import plain from './plain.js';
+import json from './json.js';
 
 const formatter = (data, outputFormat = 'stylish') => {
   switch (outputFormat) {
     case 'json':
-      return getJsonFormat(data);
+      return json(data);
     case 'plain':
-      return getPlainFormat(data);
+      return plain(data);
     default:
-      return getStylishFormat(data);
+      return stylish(data);
   }
 };
 

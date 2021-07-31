@@ -11,10 +11,10 @@ const stringify = (value) => {
 const render = (nodes) => {
   const iter = (node, nameKey) => {
     const {
-      name, type, value, children, oldValue, newValue,
+      key, type, children, oldValue, newValue,
     } = node;
 
-    const currentKey = `${nameKey}${name}`;
+    const currentKey = `${nameKey}${key}`;
     switch (type) {
       case 'nested':
         return children.map((child) => iter(child, `${currentKey}.`)).join('');
@@ -23,7 +23,7 @@ const render = (nodes) => {
       case 'changed':
         return `Property '${currentKey}' was updated. From ${stringify(oldValue)} to ${stringify(newValue)}\n`;
       case 'added':
-        return `Property '${currentKey}' was added with value: ${stringify(value)}\n`;
+        return `Property '${currentKey}' was added with value: ${stringify(newValue)}\n`;
       case 'removed':
         return `Property '${currentKey}' was removed\n`;
       default:
@@ -34,9 +34,9 @@ const render = (nodes) => {
   return iter(nodes, '');
 };
 
-const getPlainFormat = (nodes) => {
+const plain = (nodes) => {
   const lines = nodes.map((node) => render(node));
   return lines.join('').trim();
 };
 
-export default getPlainFormat;
+export default plain;
