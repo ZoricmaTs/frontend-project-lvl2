@@ -2,7 +2,7 @@ import { test, expect } from '@jest/globals';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import path from 'path';
-import makeDiff from '../src/index.js';
+import genDiff from "../src/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,12 +19,13 @@ const cases = [
   ['yml', 'json'],
 ];
 
-describe.each(cases)('makeDiff', (extention, format) => {
+describe.each(cases)('genDiff', (extention, format) => {
   test(`${format} object`, () => {
-    const expected = readFixtureFile(`${format}.txt`);
+    const filename = format === 'json' ? `${format}.json` : `${format}.txt`;
+    const expected = readFixtureFile(filename);
     const first = getFixturePath(`file1.${extention}`);
     const second = getFixturePath(`file2.${extention}`);
-    const actual = makeDiff(first, second, format);
+    const actual = genDiff(first, second, format);
     expect(actual).toEqual(expected);
   });
 });
