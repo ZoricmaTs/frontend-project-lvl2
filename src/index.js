@@ -3,10 +3,8 @@ import parser from './parsers.js';
 import formatter from './formatters/index.js';
 
 const buildAST = (data1, data2) => {
-  const allKeys = [...Object.keys(data1), ...Object.keys(data2)];
-  const keys = allKeys.filter((item, index) => allKeys.indexOf(item) === index);
-  const keysSorted = _.sortBy(keys);
-  const treeAST = keysSorted.map((key) => {
+  const mergeKeys = _.union(_.keys(data1), _.keys(data2));
+  const treeAST = _.sortBy(mergeKeys).map((key) => {
     const value1 = data1[key];
     const value2 = data2[key];
     if (_.isObject(value1) && _.isObject(value2)) {
