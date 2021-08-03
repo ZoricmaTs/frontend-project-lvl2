@@ -1,49 +1,49 @@
 import _ from 'lodash';
 
-const stringify = (value, space) => {
+const getIndent = (depth, count = 4) => {
+  const spaceIndent = depth * count - 2;
+  return ' '.repeat(spaceIndent);
+};
+
+const stringify = (value, depth) => {
   if (!_.isObject(value)) {
     return value;
   }
 
-  const indent = ' '.repeat(space + 6);
-  const indentBraces = ' '.repeat(space + 2);
-
-  const keys = Object.keys(value);
-
-  const result = keys.map((key) => {
+  const result = Object.keys(value).map((key) => {
     const valueKey = value[key];
 
     if (typeof valueKey === 'object') {
-      return `${indent}${key}: ${stringify(valueKey, space + 4)}\n`;
+      return `${getIndent(depth)}  ${key}: ${stringify(valueKey, depth + 1)}\n`;
     }
-    return `${indent}${key}: ${valueKey}\n`;
+    return `${getIndent(depth)}  ${key}: ${valueKey}\n`;
   });
-  return `{\n${result.join('')}${indentBraces}}`;
+
+  return `{\n${result.join('')}${getIndent(depth - 1)}  }`;
 };
 
 const render = (nodes) => {
-  const iter = (node, space = 2) => {
-    const indent = ' '.repeat(space);
-    const indentBraces = ' '.repeat(space + 2);
+  const iter = (node, depth = 1) => {
     const {
       key, type, children, oldValue, newValue,
     } = node;
 
     switch (type) {
       case 'nested':
-        return `\n${indentBraces}${key}: {${children.map((child) => iter(child, space + 4)).join('')}\n${indentBraces}}`;
+        return `\n${getIndent(depth)}  ${key}: {${children.map((child) => iter(child, depth + 1)).join('')}\n${getIndent(depth)}  }`;
       case 'unchanged':
-        return `\n${indentBraces}${key}: ${stringify(oldValue, space)}`;
+        return `\n${getIndent(depth)}  ${key}: ${stringify(oldValue, depth + 1)}`;
       case 'changed':
-        return `\n${indent}- ${key}: ${stringify(oldValue, space)}\n${indent}+ ${key}: ${stringify(newValue, space)}`;
+        return `\n${getIndent(depth)}- ${key}: ${stringify(oldValue, depth + 1)}\n${getIndent(depth)}+ ${key}: ${stringify(newValue, depth + 1)}`;
       case 'added':
-        return `\n${indent}+ ${key}: ${stringify(newValue, space)}`;
+        return `\n${getIndent(depth)}+ ${key}: ${stringify(newValue, depth + 1)}`;
       case 'removed':
-        return `\n${indent}- ${key}: ${stringify(oldValue, space)}`;
+        return `\n${getIndent(depth)}- ${key}: ${stringify(oldValue, depth + 1)}`;
       default:
         throw new Error(`unexpected type ${type}`);
     }
   };
+
   return iter(nodes);
 };
 
