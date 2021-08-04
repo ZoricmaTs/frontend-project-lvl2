@@ -21,8 +21,7 @@ const cases = [
 
 describe.each(cases)('genDiff', (extention, format) => {
   test(`${format} object`, () => {
-    const filename = format === 'json' ? `${format}.json` : `${format}.txt`;
-    const expected = readFixtureFile(filename);
+    const expected = readFixtureFile(`${format}.txt`);
     const first = getFixturePath(`file1.${extention}`);
     const second = getFixturePath(`file2.${extention}`);
     const actual = genDiff(first, second, format);
