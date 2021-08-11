@@ -1,12 +1,6 @@
 import yaml from 'js-yaml';
-import path from 'path';
-import fileReader from './fileReader.js';
 
-const getFormat = (filepath) => path.extname(filepath);
-
-const parser = (filepath) => {
-  const format = getFormat(filepath);
-  const data = fileReader(filepath);
+const parser = (data, format) => {
   switch (format) {
     case '.json':
       return JSON.parse(data);

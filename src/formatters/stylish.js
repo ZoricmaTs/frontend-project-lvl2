@@ -1,22 +1,19 @@
 import _ from 'lodash';
 
-const getIndent = (depth, count = 4) => {
-  const spaceIndent = depth * count - 2;
-  return ' '.repeat(spaceIndent);
-};
+const getIndent = (depth, count = 4) => ' '.repeat(depth * count - 2);
 
 const stringify = (value, depth) => {
-  if (!_.isObject(value)) {
-    return value;
+  if (!_.isPlainObject(value)) {
+    return `${value}`;
   }
 
   const result = Object.keys(value).map((key) => {
-    const valueKey = value[key];
+    const childValue = value[key];
 
-    if (typeof valueKey === 'object') {
-      return `${getIndent(depth)}  ${key}: ${stringify(valueKey, depth + 1)}\n`;
+    if (typeof childValue === 'object') {
+      return `${getIndent(depth)}  ${key}: ${stringify(childValue, depth + 1)}\n`;
     }
-    return `${getIndent(depth)}  ${key}: ${valueKey}\n`;
+    return `${getIndent(depth)}  ${key}: ${childValue}\n`;
   });
 
   return `{\n${result.join('')}${getIndent(depth - 1)}  }`;

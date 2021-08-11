@@ -1,54 +1,12 @@
-import _ from 'lodash';
 import parser from './parsers.js';
 import formatter from './formatters/index.js';
-
-const buildAST = (data1, data2) => {
-  const mergeKeys = _.union(_.keys(data1), _.keys(data2));
-  const treeAST = _.sortBy(mergeKeys).map((key) => {
-    const value1 = data1[key];
-    const value2 = data2[key];
-    if (_.isObject(value1) && _.isObject(value2)) {
-      return {
-        type: 'nested',
-        key,
-        children: buildAST(value1, value2),
-      };
-    }
-    if (!_.has(data2, key)) {
-      return {
-        type: 'removed',
-        key,
-        oldValue: value1,
-      };
-    }
-    if (!_.has(data1, key)) {
-      return {
-        type: 'added',
-        key,
-        newValue: value2,
-      };
-    }
-    if (value1 !== value2) {
-      return {
-        type: 'changed',
-        key,
-        oldValue: value1,
-        newValue: value2,
-      };
-    }
-    return {
-      type: 'unchanged',
-      key,
-      oldValue: value1,
-    };
-  });
-
-  return treeAST;
-};
+import buildAST from './build.js';
+import fileReader from './fileReader.js';
+import getFormat from './format.js';
 
 const genDiff = (filepath1, filepath2, format = 'stylish') => {
-  const data1 = parser(filepath1);
-  const data2 = parser(filepath2);
+  const data1 = parser(fileReader(filepath1), getFormat(filepath1));
+  const data2 = parser(fileReader(filepath2), getFormat(filepath2));
   const result = buildAST(data1, data2);
   const diff = formatter(result, format);
 
