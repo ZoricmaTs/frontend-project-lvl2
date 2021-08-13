@@ -9,11 +9,7 @@ const stringify = (value, depth) => {
 
   const result = Object.keys(value).map((key) => {
     const childValue = value[key];
-
-    if (typeof childValue === 'object') {
-      return `${getIndent(depth)}  ${key}: ${stringify(childValue, depth + 1)}\n`;
-    }
-    return `${getIndent(depth)}  ${key}: ${childValue}\n`;
+    return `${getIndent(depth)}  ${key}: ${stringify(childValue, depth + 1)}\n`;
   });
 
   return `{\n${result.join('')}${getIndent(depth - 1)}  }`;

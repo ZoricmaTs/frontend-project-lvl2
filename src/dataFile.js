@@ -1,7 +1,9 @@
 import path from 'path';
 import fs from 'fs';
 
-export default (filepath) => {
+export const getDataFromFile = (filepath) => {
   const absolutePath = path.resolve(process.cwd(), filepath);
   return fs.readFileSync(absolutePath, 'utf-8');
 };
+
+export const getDataType = (filepath) => path.extname(filepath);
