@@ -1,13 +1,13 @@
 import yaml from 'js-yaml';
 
-const parser = (data, typeFile) => {
-  switch (typeFile) {
-    case '.json':
+const parser = (data, format) => {
+  switch (format) {
+    case 'json':
       return JSON.parse(data);
-    case '.yml':
+    case 'yml':
       return yaml.load(data);
     default:
-      return new Error(`Wrong input format: '${typeFile}'`);
+      return new Error(`Wrong input format: '${format}'`);
   }
 };
 
