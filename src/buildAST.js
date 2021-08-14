@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 const buildAST = (data1, data2) => {
-  const mergeKeys = _.union(_.keys(data1), _.keys(data2));
-  const treeAST = _.sortBy(mergeKeys).map((key) => {
+  const keys = _.union(_.keys(data1), _.keys(data2));
+  const treeAST = _.sortBy(keys).map((key) => {
     const value1 = data1[key];
     const value2 = data2[key];
     if (_.isPlainObject(value1) && _.isPlainObject(value2)) {

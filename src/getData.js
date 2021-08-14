@@ -6,4 +6,4 @@ export const getDataFromFile = (filepath) => {
   return fs.readFileSync(absolutePath, 'utf-8');
 };
 
-export const getDataType = (filepath) => path.extname(filepath);
+export const getFormat = (filepath) => path.extname(filepath);
